@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <title>DataViz</title>
+        <style type="text/css">
+            #viz {
+                width: 900px;
+                height: 700px;
+            }
+        </style>
+        <script src="dist/neovis.js">
+	</script>
+    </head>   
+    <script>
+	const changequery= "MATCH (n) OPTIONAL MATCH (n)-[r]->(m) RETURN n,r,m;";
+	const query= "MATCH (n)-[x]->(p), OPTION MATCH (n) with  return n,p,x"; 
+	function click(){ 		
+		var config = {
+                container_id: "viz",
+                server_url: "bolt://localhost:11003",
+                server_user: "pedro",
+                server_password: "teste",
+                labels: {
+			"Article":{
+			}
+				
+                },
+                relationships: {
+			"PERTENCE":{
+				caption:true,
+				thickness:"count",
+				
+			},
+			"OWN":{
+				caption:true,
+				thickness:"count"
+			},
+			 [NeoVis.NEOVIS_DEFAULT_CONFIG]: {
+                         "caption": "defaultCaptionProperty",
+                         "community": "defaultCommunity"
+},
+                },
+		arrows:true,
+
+                initial_cypher:  changequery
+            }
+
+            var viz = new NeoVis.default(config);
+            viz.render();
+	}
+	
+    </script>
+
+    <body onload="click()">
+        <div id="viz"></div>
+    </body>
+</html>
